@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/What-s-Going/static/css/main.52f8e4b0.css",
+    "main.js": "/What-s-Going/static/js/main.4e0b40f3.js",
+    "static/media/logo.png": "/What-s-Going/static/media/logo.511261978263f6c7647c.png",
+    "index.html": "/What-s-Going/index.html",
+    "main.52f8e4b0.css.map": "/What-s-Going/static/css/main.52f8e4b0.css.map",
+    "main.4e0b40f3.js.map": "/What-s-Going/static/js/main.4e0b40f3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.52f8e4b0.css",
+    "static/js/main.4e0b40f3.js"
+  ]
+}
