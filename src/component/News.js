@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NewsItem from "./NewsItem";
 import img from "../img/logo.png";
 import Spinner from "./Spinner";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
   constructor(props) {
@@ -18,11 +19,11 @@ export default class News extends Component {
   }
 
   updateNews = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=85967f37713f44c18381204922365bb9&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-
+    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=749414d235614729a8b7f0c965f013db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     let parseData = await data.json();
+
     this.setState({
       articles: parseData.articles,
       totalArticles: parseData.totalResults,
@@ -40,6 +41,21 @@ export default class News extends Component {
   handleNext = () => {
     this.setState({ page: this.state.page + 1 }, this.updateNews);
   };
+
+  fetchMoreData = async () => {
+    this.setState({ page: this.state.page + 1 }, async () => {
+      const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=749414d235614729a8b7f0c965f013db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+      let data = await fetch(url);
+      let parseData = await data.json();
+
+      this.setState({
+        articles: this.state.articles.concat(parseData.articles),
+        totalArticles: parseData.totalResults,
+        loading: false,
+      });
+    });
+  };
+
   render() {
     return (
       <div className="px-[10vw]  pb-[10vh]">
@@ -49,35 +65,46 @@ export default class News extends Component {
             this.props.category.slice(1)}{" "}
           News
         </h1>
+
         {this.state.loading && <Spinner />}
-        <div className="flex flex-wrap justify-center">
-          {this.state.articles.map((element) => {
-            return (
-              !this.state.loading && (
-                <NewsItem
-                  key={element.url}
-                  imgUrl={
-                    element.urlToImage === null ? img : element.urlToImage
-                  }
-                  title={
-                    element.title === null
-                      ? ""
-                      : element.title.slice(0, 50) + "..."
-                  }
-                  desc={
-                    element.content === null
-                      ? ""
-                      : element.content.slice(0, 190) + "..."
-                  }
-                  date={element.publishedAt.substring(0, 10)}
-                  time={element.publishedAt.substring(11, 19)}
-                  newsUrl={element.url}
-                />
-              )
-            );
-          })}
-        </div>
-        <div className="flex justify-between p-10">
+
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length !== this.state.totalArticles}
+          loader={<Spinner />}
+          style={{ overflow: "hidden" }}
+        >
+          <div className="flex flex-wrap justify-center">
+            {this.state.articles.map((element, index) => {
+              return (
+                !this.state.loading && (
+                  <NewsItem
+                    key={index}
+                    imgUrl={
+                      element.urlToImage === null ? img : element.urlToImage
+                    }
+                    title={
+                      element.title === null
+                        ? ""
+                        : element.title.slice(0, 50) + "..."
+                    }
+                    desc={
+                      element.content === null
+                        ? ""
+                        : element.content.slice(0, 190) + "..."
+                    }
+                    date={element.publishedAt.substring(0, 10)}
+                    time={element.publishedAt.substring(11, 19)}
+                    newsUrl={element.url}
+                  />
+                )
+              );
+            })}
+          </div>
+        </InfiniteScroll>
+
+        {/* <div className="flex justify-between p-10">
           <button
             disabled={this.state.page === 1}
             onClick={this.handlePrevious}
@@ -95,7 +122,7 @@ export default class News extends Component {
           >
             Next
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
