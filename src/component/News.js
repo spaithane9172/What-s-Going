@@ -19,16 +19,26 @@ export default class News extends Component {
   }
 
   updateNews = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=749414d235614729a8b7f0c965f013db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(10);
+
+    const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
+
     let data = await fetch(url);
+
+    this.props.setProgress(30);
+
     let parseData = await data.json();
+
+    this.props.setProgress(70);
 
     this.setState({
       articles: parseData.articles,
       totalArticles: parseData.totalResults,
       loading: false,
     });
+
+    this.props.setProgress(100);
   };
 
   componentDidMount() {
@@ -44,7 +54,7 @@ export default class News extends Component {
 
   fetchMoreData = async () => {
     this.setState({ page: this.state.page + 1 }, async () => {
-      const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=749414d235614729a8b7f0c965f013db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+      const url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
       let data = await fetch(url);
       let parseData = await data.json();
 
@@ -58,8 +68,8 @@ export default class News extends Component {
 
   render() {
     return (
-      <div className="px-[10vw]  pb-[10vh]">
-        <h1 className="text-[1.2rem] font-semibold text-start my-[1rem]">
+      <div className="px-[2.5rem]  pb-[10vh] pt-[5rem]">
+        <h1 className="text-[1.2rem] font-semibold text-start py-[1rem]">
           What's Going: Top-10{" "}
           {this.props.category.charAt(0).toUpperCase() +
             this.props.category.slice(1)}{" "}
@@ -92,7 +102,7 @@ export default class News extends Component {
                     desc={
                       element.content === null
                         ? ""
-                        : element.content.slice(0, 190) + "..."
+                        : element.content.slice(0, 140) + "..."
                     }
                     date={element.publishedAt.substring(0, 10)}
                     time={element.publishedAt.substring(11, 19)}
