@@ -21,7 +21,7 @@ const News = (props) => {
     setArticles(articles);
     console.log(props.apiKey);
     //https://newsapi.org/v2/everything?q=apple&from=2025-04-16&to=2025-04-16&sortBy=popularity&apiKey=85967f37713f44c18381204922365bb9
-    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
 
     let data = await fetch(url);
@@ -44,7 +44,7 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${
+    const url = `https://bookstore-jafq.onrender.com/news?category=${
       props.category
     }&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
 
