@@ -19,7 +19,6 @@ const News = (props) => {
   const updateNews = async () => {
     props.setProgress(10);
     setArticles(articles);
-    console.log(props.apiKey);
     const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
