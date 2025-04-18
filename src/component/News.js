@@ -20,7 +20,7 @@ const News = (props) => {
     props.setProgress(10);
     setArticles(articles);
     console.log(props.apiKey);
-    const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+    const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
 
@@ -44,7 +44,7 @@ const News = (props) => {
   const fetchMoreData = async () => {
     const url = `https://bookstore-jafq.onrender.com/news?category=${
       props.category
-    }&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
+    }}&page=${page + 1}&pageSize=${props.pageSize}`;
 
     let data = await fetch(url);
     let parseData = await data.json();
