@@ -22,7 +22,6 @@ const News = (props) => {
     console.log(props.apiKey);
     const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
-
     let data = await fetch(url);
 
     props.setProgress(30);
@@ -48,7 +47,6 @@ const News = (props) => {
     }&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
 
     let data = await fetch(url);
-    console.log(data);
     let parseData = await data.json();
     setArticles(articles.concat(parseData.articles));
     setPage(page + 1);
@@ -73,37 +71,41 @@ const News = (props) => {
 
       {loading && <Spinner />}
 
-      <InfiniteScroll
-        dataLength={articles.length}
-        next={fetchMoreData}
-        hasMore={articles.length !== totalArticles}
-        loader={<Spinner />}
-        style={{ overflow: "hidden" }}
-      >
-        <div className="flex flex-wrap justify-center">
-          {articles.map((element, index) => {
-            return (
-              <NewsItem
-                key={index}
-                imgUrl={element.urlToImage === null ? img : element.urlToImage}
-                title={
-                  element.title === null
-                    ? ""
-                    : element.title.slice(0, 50) + "..."
-                }
-                desc={
-                  element.content === null
-                    ? ""
-                    : element.content.slice(0, 140) + "..."
-                }
-                date={element.publishedAt.substring(0, 10)}
-                time={element.publishedAt.substring(11, 19)}
-                newsUrl={element.url}
-              />
-            );
-          })}
-        </div>
-      </InfiniteScroll>
+      {articles && (
+        <InfiniteScroll
+          dataLength={articles.length}
+          next={fetchMoreData}
+          hasMore={articles.length !== totalArticles}
+          loader={<Spinner />}
+          style={{ overflow: "hidden" }}
+        >
+          <div className="flex flex-wrap justify-center">
+            {articles.map((element, index) => {
+              return (
+                <NewsItem
+                  key={index}
+                  imgUrl={
+                    element.urlToImage === null ? img : element.urlToImage
+                  }
+                  title={
+                    element.title === null
+                      ? ""
+                      : element.title.slice(0, 50) + "..."
+                  }
+                  desc={
+                    element.content === null
+                      ? ""
+                      : element.content.slice(0, 140) + "..."
+                  }
+                  date={element.publishedAt.substring(0, 10)}
+                  time={element.publishedAt.substring(11, 19)}
+                  newsUrl={element.url}
+                />
+              );
+            })}
+          </div>
+        </InfiniteScroll>
+      )}
 
       {/* <div className="flex justify-between p-10">
         <button
