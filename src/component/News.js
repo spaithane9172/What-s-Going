@@ -7,10 +7,9 @@ import PropTypes from "prop-types";
 
 const News = (props) => {
   const [articles, setArticles] = useState([]);
-
   const [totalArticles, setTotalArticles] = useState(0);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [pageId, setPageId] = useState();
 
   document.title = `What's Going | ${
     props.category.charAt(0).toUpperCase() + props.category.slice(1)
@@ -19,16 +18,16 @@ const News = (props) => {
   const updateNews = async () => {
     props.setProgress(10);
     setArticles(articles);
-    const url = `https://bookstore-jafq.onrender.com/news?category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
+    const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
 
     props.setProgress(30);
 
     let parseData = await data.json();
-
+    setPageId(parseData.nextPage);
     props.setProgress(70);
-    setArticles(parseData.articles);
+    setArticles(parseData.results);
     setTotalArticles(parseData.totalResults);
     setLoading(false);
 
@@ -41,14 +40,15 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
-    const url = `https://bookstore-jafq.onrender.com/news?category=${
-      props.category
-    }}&page=${page + 1}&pageSize=${props.pageSize}`;
+    if (pageId) {
+      const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}&page=${pageId}`;
 
-    let data = await fetch(url);
-    let parseData = await data.json();
-    setArticles(articles.concat(parseData.articles));
-    setPage(page + 1);
+      let data = await fetch(url);
+      let parseData = await data.json();
+      console.log(parseData);
+      setPageId(parseData.nextPage);
+      setArticles(articles.concat(parseData.articles));
+    }
   };
 
   // const handlePrevious = () => {
@@ -80,12 +80,12 @@ const News = (props) => {
         >
           <div className="flex flex-wrap justify-center">
             {articles.map((element, index) => {
+              console.log(element?.image_url);
+              console.log(element);
               return (
                 <NewsItem
                   key={index}
-                  imgUrl={
-                    element.urlToImage === null ? img : element.urlToImage
-                  }
+                  imgUrl={element.image_url === null ? img : element.image_url}
                   title={
                     element.title === null
                       ? ""
@@ -96,8 +96,8 @@ const News = (props) => {
                       ? ""
                       : element.content.slice(0, 140) + "..."
                   }
-                  date={element.publishedAt.substring(0, 10)}
-                  time={element.publishedAt.substring(11, 19)}
+                  date={element.pubDate.substring(0, 10)}
+                  time={element.pubDate.substring(11, 19)}
                   newsUrl={element.url}
                 />
               );

@@ -23,8 +23,8 @@ const App = () => {
                 setProgress={setProgress}
                 pageSize={pageSize}
                 apiKey={newsApiKey}
-                category="general"
-                key="general"
+                category="top"
+                key="top"
               />
             }
           />
