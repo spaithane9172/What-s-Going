@@ -11,14 +11,14 @@ const Navbar = (props) => {
   };
 
   return (
-    <nav className="bg-white w-full h-[5rem] px-[2.5rem] flex justify-between lg:justify-start items-center fixed shadow-b-lg shadow-black">
+    <nav className="bg-white w-full h-[4rem] sm:h-[5rem] px-[2.5rem] flex justify-between lg:justify-start items-center fixed shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4)]">
       <div>
         <img src={logo} alt="" className="w-[5rem] h-[2rem]" />
       </div>
       <ul
         className={` ${
           isMenuVisible ? "static" : "hidden"
-        } absolute flex-col top-[6.5vh] left-[60vw] bg-white w-[40vw] pl-[1rem] pb-[1rem] lg:h-[3.5rem] lg:pl-0 lg:pb-0 lg:relative lg:top-0 lg:left-0 lg:flex lg:flex-row lg:jus lg:bg-transparent lg:ml-[3rem] shadow-lg lg:shadow-none lg:w-fit`}
+        } absolute flex-col top-[6.5vh] left-[50vw] bg-white w-[50vw] pl-[1rem] pb-[1rem] lg:h-[3.5rem] lg:pl-0 lg:pb-0 lg:relative lg:top-0 lg:left-0 lg:flex lg:flex-row lg:jus lg:bg-transparent lg:ml-[3rem] shadow-lg lg:shadow-none lg:w-fit`}
       >
         <Link to="/">
           <li className="py-[0.5rem] font-semibold border-b-[1px] border-black cursor-pointer lg:px-[1rem] lg:py-[1rem] lg:border-0  ">
@@ -55,14 +55,14 @@ const Navbar = (props) => {
             Technology
           </li>
         </Link>
-        <div className="w-full flex flex-col justify-end">
+        <div className="w-full flex flex-col">
           <button
             onClick={() => {
               setShowLanguages(!showLanguages);
             }}
-            className="w-full flex justify-end"
+            className="w-full flex"
           >
-            <li className="py-[0.5rem] font-semibold border-b-[1px] border-black cursor-pointer lg:px-[1rem] lg:py-[1rem] lg:border-0 w-fit">
+            <li className="py-[0.5rem] font-semibold cursor-pointer lg:px-[1rem] lg:py-[1rem] lg:border-0 ">
               Select Language <i className="fa-solid fa-angle-down"></i>
             </li>
           </button>
