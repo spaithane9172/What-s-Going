@@ -8,11 +8,12 @@ const App = () => {
   const pageSize = 10;
   const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
   const [progress, setProgress] = useState(0);
+  const [language, setLanguage] = useState("en");
 
   return (
     <BrowserRouter>
       <LoadingBar color="#f11946" progress={progress} height={3} />
-      <Navbar />
+      <Navbar setLanguage={setLanguage} />
       <div className="bg-slate-100">
         <Routes>
           <Route
@@ -25,6 +26,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="top"
                 key="top"
+                language={language}
               />
             }
           />
@@ -38,6 +40,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="business"
                 key="business"
+                language={language}
               />
             }
           />
@@ -51,6 +54,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="entertainment"
                 key="entertainment"
+                language={language}
               />
             }
           />
@@ -64,6 +68,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="health"
                 key="health"
+                language={language}
               />
             }
           />
@@ -77,6 +82,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="science"
                 key="science"
+                language={language}
               />
             }
           />
@@ -90,6 +96,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="sports"
                 key="sports"
+                language={language}
               />
             }
           />
@@ -103,6 +110,7 @@ const App = () => {
                 apiKey={newsApiKey}
                 category="technology"
                 key="technology"
+                language={language}
               />
             }
           />

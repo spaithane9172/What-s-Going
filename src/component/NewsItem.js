@@ -5,13 +5,13 @@ const NewsItem = (props) => {
   let { imgUrl, title, desc, date, time, newsUrl } = props;
   return (
     <div
-      className="border-[1px] border-black w-[19rem] sm:w-[25rem] md:w-[19rem] lg:w-[18rem] xl:w-[17.5rem] 2xl:w-[21rem] h-[30rem] md:h-[35rem] lg:h-[37rem] 2xl:h-[35rem] md:mr-[1rem] lg:mr-[1rem] rounded-lg bg-white mb-[1.5rem] shadow-md shadow-black"
+      className="border-[1px] border-black w-[19rem] sm:w-[25rem] md:w-[19rem] lg:w-[18rem] xl:w-[17.5rem] 2xl:w-[21rem] h-fit md:mr-[1rem] lg:mr-[1rem] rounded-lg bg-white mb-[1.5rem] pb-[0.5rem] shadow-md"
       key={newsUrl}
     >
       <img
         src={imgUrl}
         alt=""
-        className="w-full h-[20vh] sm:h-[23vh] md:h-[34vh] border-black border-[1px] rounded-t-lg"
+        className="w-full h-[30vh] sm:h-[23vh] md:h-[34vh] border-black border-[1px] rounded-t-lg"
       />
       <div className="p-[1rem]">
         <h1 className="mb-[1rem] text-[1.2rem] lg:text-[1.1rem] font-semibold text-wrap text-justify">

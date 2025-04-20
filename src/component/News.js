@@ -16,38 +16,55 @@ const News = (props) => {
   }`;
 
   const updateNews = async () => {
-    props.setProgress(10);
-    setArticles(articles);
-    const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}`;
-    setLoading(true);
-    let data = await fetch(url);
+    try {
+      props.setProgress(10);
+      setArticles(articles);
+      const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}&language=${props.language}`;
+      setLoading(true);
+      let data = await fetch(url);
 
-    props.setProgress(30);
+      props.setProgress(30);
 
-    let parseData = await data.json();
-    setPageId(parseData.nextPage);
-    props.setProgress(70);
-    setArticles(parseData.results);
-    setTotalArticles(parseData.totalResults);
-    setLoading(false);
+      let parseData = await data.json();
+      setPageId(parseData.nextPage);
+      console.log(parseData);
+      props.setProgress(70);
+      if (parseData?.results?.length) {
+        setArticles(parseData.results);
+        setTotalArticles(parseData.totalResults);
+      }
+      setLoading(false);
 
-    props.setProgress(100);
+      props.setProgress(100);
+    } catch (error) {
+      alert("something wrong try after some time.");
+    }
   };
 
   useEffect(() => {
     updateNews();
     //eslint-disable-next-line
-  }, []);
+  }, [props.language]);
 
   const fetchMoreData = async () => {
-    if (pageId) {
-      const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}&page=${pageId}`;
+    if (pageId !== null) {
+      const url = `https://newsdata.io/api/1/latest?apikey=${process.env.REACT_APP_NEWS_APIKEY}&country=in&category=${props.category}&size=${props.pageSize}&page=${pageId}&language=${props.language}`;
 
-      let data = await fetch(url);
-      let parseData = await data.json();
-      console.log(parseData);
-      setPageId(parseData.nextPage);
-      setArticles(articles.concat(parseData.articles));
+      try {
+        const response = await fetch(url);
+        const parseData = await response.json();
+
+        if (parseData?.results?.length) {
+          setArticles((prevArticles) => [
+            ...prevArticles,
+            ...parseData.results,
+          ]);
+        }
+
+        setPageId(parseData.nextPage || null); // Set to null if no more pages
+      } catch (error) {
+        console.error("Error fetching more data:", error);
+      }
     }
   };
 
@@ -70,7 +87,7 @@ const News = (props) => {
 
       {loading && <Spinner />}
 
-      {articles && (
+      {articles.length > 0 && (
         <InfiniteScroll
           dataLength={articles.length}
           next={fetchMoreData}
@@ -80,32 +97,36 @@ const News = (props) => {
         >
           <div className="flex flex-wrap justify-center">
             {articles.map((element, index) => {
-              console.log(element?.image_url);
-              console.log(element);
               return (
                 <NewsItem
                   key={index}
-                  imgUrl={element.image_url === null ? img : element.image_url}
+                  imgUrl={
+                    element?.image_url === null ? img : element?.image_url
+                  }
                   title={
-                    element.title === null
+                    element?.title === null
                       ? ""
-                      : element.title.slice(0, 50) + "..."
+                      : element?.title.slice(0, 50) + "..."
                   }
                   desc={
-                    element.content === null
+                    element?.content === null
                       ? ""
-                      : element.content.slice(0, 140) + "..."
+                      : element?.content.slice(0, 140) + "..."
                   }
-                  date={element.pubDate.substring(0, 10)}
-                  time={element.pubDate.substring(11, 19)}
-                  newsUrl={element.url}
+                  date={element?.pubDate.substring(0, 10)}
+                  time={element?.pubDate.substring(11, 19)}
+                  newsUrl={element?.url}
                 />
               );
             })}
           </div>
         </InfiniteScroll>
       )}
-
+      {articles.length <= 0 && !loading && (
+        <h1 className="text-center font-semibold text-[1.2rem] w-full">
+          Something is wrong try after some time.
+        </h1>
+      )}
       {/* <div className="flex justify-between p-10">
         <button
           disabled={this.state.page === 1}
