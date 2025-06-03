@@ -31,10 +31,10 @@
 ---
 
 ## 📸 Screenshot
-### 📰 News Dashboard (PC)
+### 📰 News Dashboard (PC View)
 ![What's Going Screenshot](./screenshot/home.png)
 
-### 📰 News Dashboard (Mobile)
+### 📰 News Dashboard (Mobile View)
 ![What's Going Screenshot](./screenshot/mobilehome.png)
 
 ---
