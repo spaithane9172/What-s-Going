@@ -1,4 +1,4 @@
-[⚠️ Suspicious Content] # 📰 What's Going?
+# 📰 What's Going?
 
 **What's Going?** is a clean and minimal news web app that provides users with real-time, categorized news updates from various trusted sources. Built for speed and simplicity, it's your go-to app for staying informed across topics — all in one place.
 
