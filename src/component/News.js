@@ -115,7 +115,7 @@ const News = (props) => {
                   }
                   date={element?.pubDate.substring(0, 10)}
                   time={element?.pubDate.substring(11, 19)}
-                  newsUrl={element?.url}
+                  newsUrl={element?.link}
                 />
               );
             })}

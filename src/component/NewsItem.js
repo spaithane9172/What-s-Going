@@ -14,9 +14,14 @@ const NewsItem = (props) => {
         className="w-full h-[30vh] sm:h-[23vh] md:h-[34vh] border-black border-[1px] rounded-t-lg"
       />
       <div className="p-[1rem]">
-        <h1 className="mb-[1rem] text-[1.2rem] lg:text-[1.1rem] font-semibold text-wrap text-justify">
+        <a
+          href={newsUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mb-[1rem] text-[1.2rem] lg:text-[1.1rem] font-semibold text-wrap text-justify"
+        >
           {title}
-        </h1>
+        </a>
         <p className="text-wrap w-[60] text-justify truncate">{desc}</p>
         <div className="my-[1.1rem] flex justify-between items-center ">
           <p>
@@ -28,7 +33,7 @@ const NewsItem = (props) => {
         </div>
         <a
           href={newsUrl}
-          className=" border-black border-[1px] px-[0.5rem] py-[0.2rem] rounded-md bg-blue-500 text-white font-bold"
+          className="cursor-pointer border-black border-[1px] px-[0.5rem] py-[0.2rem] rounded-md bg-blue-500 text-white font-bold"
           target="_blank"
           rel="noreferrer"
         >
